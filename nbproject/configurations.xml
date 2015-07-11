@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>CoderWriter.h</itemPath>
       <itemPath>Parser.h</itemPath>
       <itemPath>Utility.h</itemPath>
     </logicalFolder>
@@ -38,6 +39,8 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="CoderWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Parser.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Utility.h" ex="false" tool="3" flavor2="0">
@@ -65,6 +68,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="CoderWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Parser.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Utility.h" ex="false" tool="3" flavor2="0">
