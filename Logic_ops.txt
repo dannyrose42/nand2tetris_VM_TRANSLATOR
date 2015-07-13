@@ -1,0 +1,86 @@
+@X	//push X
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+//eq
+@SP
+AM=M-1	
+D=M	//pop y to D
+@SP
+AM=M-1	
+D=D-M	//D = y-x
+M=0	//set false
+@eqx
+D;JNE	//If (D!=0) then jump and keep false	
+@SP	//else replace false with true
+A=M
+M=-1
+(eqx)
+@SP	
+M=M+1
+
+//gt true if (x > y)
+@SP
+AM=M-1	
+D=M	//pop y to D
+@SP
+AM=M-1	
+D=D-M	//D = y-x
+M=0	//set false
+@eqx
+D;JGT	//If (D >= 0) jump and keep false 	
+@SP	//else replace false with true
+A=M
+M=-1
+(eqx)
+@SP	
+M=M+1
+
+//lt true if (x < y)
+@SP
+AM=M-1	
+D=M	//pop y to D
+@SP
+AM=M-1	
+D=D-M	//D = y-x
+M=0	//set false
+@eqx
+D;JLT	//If (D < 0) jump and keep false 	
+@SP	//else replace false with true
+A=M
+M=-1
+(eqx)
+@SP	
+M=M+1
+
+//and (bit-wise) 
+@SP
+AM=M-1	
+D=M	//pop y to D
+@SP
+AM=M-1	
+M=D&M	//M = y&x
+@SP
+M=M+1
+
+//or (bit-wise) 
+@SP
+AM=M-1	
+D=M	//pop y to D
+@SP
+AM=M-1	
+M=D|M	//M = y|x
+@SP
+M=M+1
+
+//not(bit-wise) 
+@SP
+AM=M-1	
+M=!M	//M = !y
+@SP
+M=M+1

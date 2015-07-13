@@ -1,0 +1,35 @@
+//Push constant 7
+@7	//Load constant 7 onto A register
+D=A	//Move constant 7 onto D register
+@SP	//SP is RAM[0] and contains the address of the top of the stack
+A=M	//Load the value at the location pointed to by SP onto A
+M=D	//Load contents of D (constant 7) into RAM[SP]
+@SP	//
+M=M+1	//Increment SP.
+
+//push constant 8
+@8
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1	//see abole
+
+//add
+@SP	
+M=M-1	//decrement stack pointer
+@SP	//
+A=M	//refresh stack pointer
+D=M	//D = top element of stack
+@SP	
+M=M-1   //decrement SP
+@SP
+A=M	//refresh SP
+A=M	//Place new top element in A in prep for add	
+D=D+A	//add
+@SP	//
+A=M	//put SP back on A
+M=D	//write sum to stack top
+@SP
+M=M+1	//increment stack top

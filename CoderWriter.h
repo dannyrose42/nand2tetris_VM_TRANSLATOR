@@ -11,10 +11,13 @@
 class CodeWriter
 {
 public:
-    CodeWrite();
+    CodeWriter();
     void setFileName(string FileName);
     void writeArithmetic(string command);
-    void writePushPop(COMMAND_TYPE command, string segment, int index);
+    void writePushPop(string command, string segment, int index);
+protected:
+    ofstream fout;
+    int eq, gt, lt;
 };
 #endif	/* CODERWRITER_H */
 

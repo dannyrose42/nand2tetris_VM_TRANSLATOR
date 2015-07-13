@@ -15,6 +15,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>CodeWriter.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -39,6 +40,8 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="CodeWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="CoderWriter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Parser.h" ex="false" tool="3" flavor2="0">
@@ -68,6 +71,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="CodeWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="CoderWriter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Parser.h" ex="false" tool="3" flavor2="0">
