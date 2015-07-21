@@ -1,23 +1,24 @@
 /* 
- * File:   CoderWriter.h
+ * File:   CodeWriter.h
  * Author: drose
  *
  * Created on July 11, 2015, 9:10 AM
  */
 
-#ifndef CODERWRITER_H
-#define	CODERWRITER_H
+#ifndef CODEWRITER_H
+#define	CODEWRITER_H
 #include "Utility.h"
 class CodeWriter
 {
 public:
-    CodeWriter();
+    CodeWriter(string asmFile);
     void setFileName(string FileName);
     void writeArithmetic(string command);
-    void writePushPop(string command, string segment, int index);
+    void writePushPop(COMMAND_TYPE command, string segment, int index);
+    void close();
 protected:
     ofstream fout;
     int eq, gt, lt;
 };
-#endif	/* CODERWRITER_H */
+#endif	/* CODEWRITER_H */
 

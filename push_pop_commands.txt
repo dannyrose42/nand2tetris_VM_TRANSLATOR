@@ -1,0 +1,109 @@
+PUSH COMMANDS
+//push local
+@LCL
+D=M	//D contains addr of LCL base
+@index
+A=D+A	//A contains addr of LCL base + index
+D=M	//D contains RAM[LCL+index]
+@SP
+A=M
+M=D	//Push D onto stack
+@SP
+M=M+1	//SP++
+=============
+//push argument
+@ARG
+D=M	
+@index
+A=D+A	
+D=M	
+@SP
+A=M
+M=D	
+@SP
+M=M+1
+=============
+//push this
+@THIS
+D=M	
+@index
+A=D+A	
+D=M	
+@SP
+A=M
+M=D	
+@SP
+M=M+1
+=============
+//push that
+@THAT
+D=M	
+@index
+A=D+A	
+D=M	
+@SP
+A=M
+M=D	
+@SP
+M=M+1
+==============
+//push pointer
+@3
+D=M	
+@index
+A=D+A	
+D=M	
+@SP
+A=M
+M=D	
+@SP
+M=M+1
+=============
+//push temp
+@5
+D=M	
+@index
+A=D+A	
+D=M	
+@SP
+A=M
+M=D	
+@SP
+M=M+1
+=============
+POP COMMANDS
+//pop local w/o R13
+@LCL
+D=M	//D contains LCL base addr
+@index
+D=D+A	//D contains LCL base addr + index
+@SP
+A=M
+M=D	//temp store LCL base addr + index at SP
+@SP
+AM=M-1
+D=M	//pop y into D
+@SP
+M=M+1	//SP now again points at reg holding LCL base addr + index
+A=M	
+M=D	//pop y into LCL[base+index]
+@SP 
+M=M-1				
+============
+// pop local w/ R13
+@LCL
+D=M
+@index
+D=D+A
+@R13
+M=D
+@SP
+AM=M-1
+D=M
+@R13
+A=M
+M=D
+
+
+
+	

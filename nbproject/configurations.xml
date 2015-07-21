@@ -4,9 +4,9 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>CoderWriter.h</itemPath>
-      <itemPath>Parser.h</itemPath>
+      <itemPath>CodeWriter.h</itemPath>
       <itemPath>Utility.h</itemPath>
+      <itemPath>VmParser.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -16,6 +16,7 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>CodeWriter.cpp</itemPath>
+      <itemPath>VmParser.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -42,11 +43,13 @@
       </compileType>
       <item path="CodeWriter.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="CoderWriter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Parser.h" ex="false" tool="3" flavor2="0">
+      <item path="CodeWriter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Utility.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="VmParser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="VmParser.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -73,11 +76,13 @@
       </compileType>
       <item path="CodeWriter.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="CoderWriter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Parser.h" ex="false" tool="3" flavor2="0">
+      <item path="CodeWriter.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Utility.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="VmParser.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="VmParser.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

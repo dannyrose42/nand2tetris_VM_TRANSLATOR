@@ -32,12 +32,12 @@ D=M	//pop y to D
 AM=M-1	
 D=D-M	//D = y-x
 M=0	//set false
-@eqx
+@gtx
 D;JGT	//If (D >= 0) jump and keep false 	
 @SP	//else replace false with true
 A=M
 M=-1
-(eqx)
+(gtx)
 @SP	
 M=M+1
 
@@ -49,12 +49,12 @@ D=M	//pop y to D
 AM=M-1	
 D=D-M	//D = y-x
 M=0	//set false
-@eqx
+@ltx
 D;JLT	//If (D < 0) jump and keep false 	
 @SP	//else replace false with true
 A=M
 M=-1
-(eqx)
+(ltx)
 @SP	
 M=M+1
 
