@@ -74,7 +74,7 @@ void CodeWriter::writeArithmetic(string command){
         fout << "D=D-M" << endl;    //D = y-x
         fout << "M=0" << endl;      //blindly set false
         fout << "@gt" << gt << endl;
-        fout << "D;JGT" << endl;    //if (D >= 0) then jump and keep false
+        fout << "D;JGE" << endl;    //if (D >= 0) then jump and keep false
         fout << "@SP" << endl;      //else replace false with true
         fout << "A=M" << endl;
         fout << "M=-1" << endl;
@@ -91,7 +91,7 @@ void CodeWriter::writeArithmetic(string command){
         fout << "D=D-M" << endl;    //D = y-x
         fout << "M=0" << endl;      //blindly set false
         fout << "@lt" << lt << endl;
-        fout << "D;JLT" << endl;    //if (D < 0) then jump and keep false
+        fout << "D;JLE" << endl;    //if (D < 0) then jump and keep false
         fout << "@SP" << endl;      //else replace false with true
         fout << "A=M" << endl;
         fout << "M=-1" << endl;
@@ -130,7 +130,7 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
     string label = "";
     switch (command){
         case C_PUSH:
-            if(segment.compare("constant")==0){ //Push constant
+            if (segment.compare("constant")==0){ //Push constant
                 fout << "@" << index << endl;
                 fout << "D=A" << endl;
                 fout << "@SP" << endl;
@@ -138,6 +138,9 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
                 fout << "M=D" << endl;
                 fout << "@SP" << endl;
                 fout << "M=M+1" << endl;
+            }else if (segment.compare("local")==0){  //push local
+                
+                
             }
             break;
 

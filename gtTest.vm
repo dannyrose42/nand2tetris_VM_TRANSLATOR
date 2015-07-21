@@ -1,0 +1,3 @@
+push constant 32766
+push constant 32766
+gt
