@@ -71,6 +71,15 @@ M=D
 @SP
 M=M+1
 =============
+//push static
+@xxx.index
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1 
+=============
 POP COMMANDS
 //pop local w/o R13
 @LCL
@@ -92,6 +101,7 @@ M=M-1
 ============
 // pop local w/ R13
 @LCL
+A=M
 D=M
 @index
 D=D+A
@@ -101,7 +111,6 @@ M=D
 AM=M-1
 D=M
 @R13
-A=M
 M=D
 
 

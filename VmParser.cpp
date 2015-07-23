@@ -14,6 +14,9 @@ bool VmParser::hasMoreCommands(){
 /* Reads the next command from the input and makes it the current command.
  * Should be called only if hasMoreCommands() is true. Initially, there is no
  * current command*/
+string VmParser::getCurrentCommand(){
+    return current_command;
+}
 void VmParser::advance(){
     firstBlankIndex = secondBlankIndex = thirdBlankIndex = arg1Index = arg2Index = 0;
     valid_command = false;
@@ -73,6 +76,7 @@ void VmParser::advance(){
  */
 COMMAND_TYPE VmParser::commandType(){
     string command = current_command.substr(0,firstBlankIndex);
+    cout << "command:" << command <<"." << endl;
     if (command.compare("add")== 0
             || command.compare("sub")== 0
             || command.compare("neg")== 0

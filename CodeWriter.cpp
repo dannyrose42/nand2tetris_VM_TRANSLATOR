@@ -2,7 +2,10 @@
 CodeWriter::CodeWriter(string asmFile){
     eq, gt, lt = 0;
     fout.open(asmFile.c_str());
-    if (fout.fail()) cout << "Failed to initialize output file:" << asmFile << endl;   
+    if (fout.fail()) cout << "Failed to initialize output file:" << asmFile << endl;
+    //Trim .asm extension to set currentFileName for static varibles
+    asmFile.erase(asmFile.size()-4, 4);
+    currentVmFileName = asmFile;
 }
 void CodeWriter::setFileName(string FileName){
     
@@ -91,7 +94,7 @@ void CodeWriter::writeArithmetic(string command){
         fout << "D=D-M" << endl;    //D = y-x
         fout << "M=0" << endl;      //blindly set false
         fout << "@lt" << lt << endl;
-        fout << "D;JLE" << endl;    //if (D < 0) then jump and keep false
+        fout << "D;JLE " << endl;    //if (D < 0) then jump and keep false
         fout << "@SP" << endl;      //else replace false with true
         fout << "A=M" << endl;
         fout << "M=-1" << endl;
@@ -118,18 +121,43 @@ void CodeWriter::writeArithmetic(string command){
         fout << "@SP" << endl;
         fout << "M=M+1" << endl;
     } else if (command.compare("not")==0){ //return bitwise not y
-            fout << "@SP" << endl;
-            fout << "AM=M-1" << endl;   
-            fout << "M=!M" << endl;
-            fout << "@SP" << endl;
-            fout << "M=M+1" << endl;
+        fout << "@SP" << endl;
+        fout << "AM=M-1" << endl;   
+        fout << "M=!M" << endl;
+        fout << "@SP" << endl;
+        fout << "M=M+1" << endl;
     }else
         cout << "WriteArithmetic() called on invalid command: " << command << endl; 
 }
 void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
-    string label = "";
+    /* Replace vm segment with asm symbol equivalent:
+     * local -> LCL
+     * argument -> ARG
+     * this -> THIS
+     * that -> THAT
+     * pointer -> R3
+     * temp -> R5
+     * static -> "xxx." (xxx = currentVmFileName) */
+    //debug
+//    cout << "Segment before:" << segment << endl;
+    if (segment.compare("local")==0)
+        segment = "LCL";
+    else if (segment.compare("argument")==0)
+        segment = "ARG";
+    else if (segment.compare("this")==0)
+        segment = "THIS";
+    else if (segment.compare("that")==0)
+        segment = "THAT";
+    else if (segment.compare("pointer")==0)
+        segment = "R3";
+    else if (segment.compare("temp")==0)
+        segment = "R5";
+//    cout << "Segment after:" << segment << endl << endl;
+    
     switch (command){
         case C_PUSH:
+            //debug
+            cout << "CodeWriter dectects PUSH" << endl;
             if (segment.compare("constant")==0){ //Push constant
                 fout << "@" << index << endl;
                 fout << "D=A" << endl;
@@ -138,13 +166,77 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
                 fout << "M=D" << endl;
                 fout << "@SP" << endl;
                 fout << "M=M+1" << endl;
-            }else if (segment.compare("local")==0){  //push local
-                
-                
+            }else if (segment.compare("static")==0){  //push static
+                fout << "@" << currentVmFileName << "." << index << endl;
+                fout << "D=M" << endl;
+                fout << "@SP" << endl;
+                fout << "A=M" << endl;
+                fout << "M=D" << endl;
+                fout << "@SP" << endl;
+                fout << "M=M+1" << endl;
+            }else if (segment.compare("R3") == 0 // push pointer || temp
+                   || segment.compare("R5") ==0){
+                fout << "@" << segment << endl;
+                fout << "D=A" << endl;
+                fout << "@" << index << endl;
+                fout << "A=D+A" << endl;
+                fout << "D=M" << endl;
+                fout << "@SP" << endl;
+                fout << "A=M" << endl;
+                fout << "M=D" << endl;
+                fout << "@SP" << endl;
+                fout << "M=M+1" << endl;             
+            }else{  //push local || argument || this || that
+                fout << "@" << segment << endl;
+                fout << "D=M" << endl;
+                fout << "@" << index << endl;
+                fout << "A=D+A" << endl;
+                fout << "D=M" << endl;
+                fout << "@SP" << endl;
+                fout << "A=M" << endl;
+                fout << "M=D" << endl;
+                fout << "@SP" << endl;
+                fout << "M=M+1" << endl;
             }
             break;
-
-        case C_POP:
+        case C_POP:// static only special case
+            //debug
+            cout << "CodeWriter dectects POP" << endl;
+            if (segment.compare("static")==0){
+                fout << "@SP" << endl;
+                fout << "AM=M-1" << endl;
+                fout << "D=M" << endl;
+                fout << "@" << currentVmFileName <<"." << index << endl;
+                fout << "M=D" << endl;
+            }else if (segment.compare("R3") == 0 //pop pointer || temp
+                   || segment.compare("R5") ==0){
+                fout << "@" << segment << endl;
+                fout << "D=A" << endl;
+                fout << "@" << index << endl;
+                fout << "D=D+A" << endl;
+                fout << "@R13" << endl;
+                fout << "M=D" << endl;
+                fout << "@SP" << endl;
+                fout << "AM=M-1" << endl;
+                fout << "D=M" << endl;
+                fout << "@R13" << endl;
+                fout << "A=M" << endl;
+                fout << "M=D" << endl;      
+            }else{ // PUSH local || argument || this || that
+                fout << "@" << segment << endl;
+                fout << "D=M" << endl;
+                fout << "@" << index << endl;
+                fout << "D=D+A" << endl;
+                fout << "@R13" << endl;
+                fout << "M=D" << endl;
+                fout << "@SP" << endl;
+                fout << "AM=M-1" << endl;
+                fout << "D=M" << endl;
+                fout << "@R13" << endl;
+                fout << "A=M" << endl;
+                fout << "M=D" << endl;
+            }
+            
             break;
         default:
             cout <<"writePushPop() called on invalid command type:" << command << endl;                 
@@ -154,3 +246,4 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
 void CodeWriter::close(){
     fout.close();
 }
+ 

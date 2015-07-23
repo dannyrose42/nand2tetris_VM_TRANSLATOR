@@ -19,6 +19,7 @@ public:
 protected:
     ofstream fout;
     int eq, gt, lt;
+    string currentVmFileName;
 };
 #endif	/* CODEWRITER_H */
 

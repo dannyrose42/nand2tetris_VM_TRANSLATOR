@@ -13,11 +13,13 @@ class VmParser
 public:
     VmParser(string input_file);
     bool hasMoreCommands();
+    string getCurrentCommand();
     void advance();
     COMMAND_TYPE commandType();
     string arg1();
     int arg2();
     bool valid_command;
+    
 
 protected:
     fstream fin;
