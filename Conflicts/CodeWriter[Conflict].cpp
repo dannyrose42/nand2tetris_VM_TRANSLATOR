@@ -1,6 +1,6 @@
 #include "CodeWriter.h"
 CodeWriter::CodeWriter(string asmFile){
-    equalCount, greaterCount, lessCount, ifCount,  returnCount, writeCount = 0;
+    eq, gt, lt, wIf = 0;
     fout.open(asmFile.c_str());
     if (fout.fail()) cout << "Failed to initialize output file:" << asmFile << endl;
     //Trim .asm extension to set currentFileName for static varibles
@@ -62,15 +62,15 @@ void CodeWriter::writeArithmetic(string command){
         fout << "AM=M-1" << endl;
         fout << "D=D-M" << endl;    //D = y-x
         fout << "M=0" << endl;      //blindly set false
-        fout << "@eq" << equalCount << endl;
+        fout << "@eq" << eq << endl;
         fout << "D;JNE" << endl;    //if (D!=0) then jump and keep false
         fout << "@SP" << endl;      //else replace false with true
         fout << "A=M" << endl;
         fout << "M=-1" << endl;
-        fout << "(eq" << equalCount <<")" << endl;
+        fout << "(eq" << eq <<")" << endl;
         fout << "@SP" << endl;
         fout << "M=M+1" << endl;
-        equalCount++;
+        eq++;
     }else if (command.compare("gt")==0){ //return true if (x > y)
         fout << "@SP" << endl;
         fout << "AM=M-1" << endl;
@@ -79,15 +79,15 @@ void CodeWriter::writeArithmetic(string command){
         fout << "AM=M-1" << endl;
         fout << "D=D-M" << endl;    //D = y-x
         fout << "M=0" << endl;      //blindly set false
-        fout << "@gt" << greaterCount << endl;
+        fout << "@gt" << gt << endl;
         fout << "D;JGE" << endl;    //if (D >= 0) then jump and keep false
         fout << "@SP" << endl;      //else replace false with true
         fout << "A=M" << endl;
         fout << "M=-1" << endl;
-        fout << "(gt" << greaterCount <<")" << endl;
+        fout << "(gt" << gt <<")" << endl;
         fout << "@SP" << endl;
         fout << "M=M+1" << endl;
-        greaterCount++;
+        gt++;
     }else if (command.compare("lt")==0){ //return true if (x < y))
         fout << "@SP" << endl;
         fout << "AM=M-1" << endl;
@@ -96,15 +96,15 @@ void CodeWriter::writeArithmetic(string command){
         fout << "AM=M-1" << endl;
         fout << "D=D-M" << endl;    //D = y-x
         fout << "M=0" << endl;      //blindly set false
-        fout << "@lt" << lessCount << endl;
+        fout << "@lt" << lt << endl;
         fout << "D;JLE " << endl;    //if (D < 0) then jump and keep false
         fout << "@SP" << endl;      //else replace false with true
         fout << "A=M" << endl;
         fout << "M=-1" << endl;
-        fout << "(lt" << lessCount <<")" << endl;
+        fout << "(lt" << lt <<")" << endl;
         fout << "@SP" << endl;
         fout << "M=M+1" << endl;
-        lessCount++;
+        lt++;
     }else if (command.compare("and")==0){ //returns x AND y bit-wise
         fout << "@SP" << endl;
         fout << "AM=M-1" << endl;
@@ -256,152 +256,10 @@ void CodeWriter::writeIf(string label){
     fout << "@SP" << endl;
     fout << "AM=M-1" << endl;
     fout << "D=M" << endl;
-    fout << "@wIf" << ifCount << endl;
+    fout << "@wIf" << wIf << endl;
     fout << "D;JEQ" << endl;
     fout << "@" << currentFunction << "$" << label << endl;
     fout << "0;JMP" << endl;
-    fout << "(wIf" << ifCount << ")" << endl;
-    ifCount++;
-}
-void CodeWriter::writeCall(string functionName, int numOfArgs){
-    fout << "@returnAddress" << returnCount << endl;    //push return address
-    fout << "D=A" << endl;
-    fout << "@SP" << endl;
-    fout << "A=M" << endl;
-    fout << "M=D" << endl;
-    fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "@LCL" << endl;     //push LCL   
-    fout << "D=M" << endl;
-    fout << "@SP" << endl;
-    fout << "A=M" << endl;
-    fout << "M=D" << endl;
-    fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "@ARG" << endl;     //push ARG
-    fout << "D=M" << endl;
-    fout << "@SP" << endl;
-    fout << "A=M" << endl;
-    fout << "M=D" << endl;
-    fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "@THIS" << endl;     //push THIS
-    fout << "D=M" << endl;
-    fout << "@SP" << endl;
-    fout << "A=M" << endl;
-    fout << "M=D" << endl;
-    fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "@THAT" << endl;     //push THAT
-    fout << "D=M" << endl;
-    fout << "@SP" << endl;
-    fout << "A=M" << endl;
-    fout << "M=D" << endl;
-    fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "@SP" << endl;      //ARG = SP-numOfArgs-5
-    fout << "D=M" << endl;
-    fout << "@" << numOfArgs << endl;
-    fout << "D=D-A" << endl;
-    fout << "@5" << endl;
-    fout << "D=D-A" << endl;
-    fout << "@ARG" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@SP" << endl;     //LCL = SP
-    fout << "D=M" << endl;
-    fout << "@LCL" << endl;
-    fout << "M=D" << endl;
-  
-    fout << "@" << functionName << endl;     //goto functionName
-    fout << "0;JMP" << endl;
-    fout << "(returnAddress" << returnCount << ")" << endl;
-    returnCount++; 
-}
-void CodeWriter::writeReturn(){
-    fout << "@LCL" << endl;     //FRAME(R13) = LCL
-    fout << "D=M" << endl;
-    fout << "@R13" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@5" << endl;     //RET(R14) = FRAME(R13) - 5
-    fout << "D=D-A" << endl;
-    fout << "A=D" << endl;
-    fout << "D=M" << endl;
-    fout << "@R14" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@SP" << endl;     //ARG = pop()
-    fout << "AM=M-1" << endl;
-    fout << "D=M" << endl;
-    fout << "@ARG" << endl;
-    fout << "A=M" << endl; 
-    fout << "M=D" << endl;
-    
-    fout << "@ARG" << endl;     // SP = ARG+1
-    fout << "D=M+1" << endl;
-    fout << "@SP" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@R13" << endl;     // THAT = FRAME(R13)-1
-    fout << "D=M" << endl;
-    fout << "D=D-1" << endl;
-    fout << "A=D" << endl;
-    fout << "D=M" << endl;
-    fout << "@THAT" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@R13" << endl;     //THIS = FRAM(R13)-2
-    fout << "D=M" << endl;
-    fout << "@2" << endl;
-    fout << "D=D-A" << endl;
-    fout << "A=D" << endl;
-    fout << "D=M" << endl;
-    fout << "@THIS" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@R13" << endl;     //ARG = FRAM(R13)-3
-    fout << "D=M" << endl;
-    fout << "@3" << endl;
-    fout << "D=D-A" << endl;
-    fout << "A=D" << endl;
-    fout << "D=M" << endl;
-    fout << "@ARG" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@R13" << endl;     //LCL = FRAM(R13)-4
-    fout << "D=M" << endl;
-    fout << "@4" << endl;
-    fout << "D=D-A" << endl;
-    fout << "A=D" << endl;
-    fout << "D=M" << endl;
-    fout << "@LCL" << endl;
-    fout << "M=D" << endl;
-    
-    fout << "@R14" << endl;     //goto RET(R14)
-    fout << "A=M" << endl;
-    fout << "0;JMP" << endl;
-}
-void CodeWriter::writeFunction(string functionName, int numOfLocals){
-    fout << "(" << functionName << ")" << endl;
-    
-    fout << "@" << numOfLocals << endl;
-    fout << "D=A" << endl;
-    
-    fout << "(writeLOOP" << writeCount << ")" << endl;
-    fout << "@SP" << endl;      //push zero
-    fout << "A=M" << endl;
-    fout << "M=0" << endl;
-    fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "D=D-1" << endl;
-    
-    fout << "@" << "writeLOOP" << writeCount << endl;
-    fout << "D;JNE" << endl;    
+    fout << "(wIf" << wIf << ")" << endl;
+    wIf++;
 }

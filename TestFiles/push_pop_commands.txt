@@ -101,7 +101,6 @@ M=M-1
 ============
 // pop local w/ R13
 @LCL
-A=M
 D=M
 @index
 D=D+A

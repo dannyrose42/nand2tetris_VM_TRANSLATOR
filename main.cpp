@@ -29,17 +29,31 @@ int main(int argc, char** argv) {
             cout << endl << "Current Command:" << Parser.getCurrentCommand() << endl;
             switch(Parser.commandType()){
                 case C_ARITHMETIC:
-                    //debug
-                    cout << "C_ARITHMETIC" << endl;
                     CodeWriter.writeArithmetic(Parser.arg1());
                     break;
                 case C_PUSH:
-                    //debug
-
                     CodeWriter.writePushPop(C_PUSH, Parser.arg1(), Parser.arg2());
                     break;
                 case C_POP:
                     CodeWriter.writePushPop(C_POP, Parser.arg1(), Parser.arg2());
+                    break;                  
+                case C_LABEL:
+                    CodeWriter.writeLabel(Parser.arg1());
+                    break;
+                case C_GOTO:
+                    CodeWriter.writeGoto(Parser.arg1());
+                    break;
+                case C_IF:
+                    CodeWriter.writeIf(Parser.arg1());
+                    break;
+                case C_FUNCTION:
+                    CodeWriter.writeFunction(Parser.arg1(), Parser.arg2());
+                    break;
+                case C_RETURN:
+                    CodeWriter.writeReturn();
+                    break;
+                case C_CALL:
+                    CodeWriter.writeCall(Parser.arg1(), Parser.arg2());
                     break;
                 default:
                     break;

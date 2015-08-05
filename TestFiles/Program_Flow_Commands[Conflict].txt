@@ -1,0 +1,77 @@
+//writeInit
+================
+//writeLabel
+(function$label)
+================
+//writeGoto
+@function$label
+0;JMP
+================
+//writeIf
+@SP
+AM=M-1
+D=M 
+@wIfx
+D;JEQ
+@function$label
+0;JMP
+(wIfx)
+================
+//writeCall
+@returnAddressX
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1	//push return address
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1	//push LCL
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1	//push arg	
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1	//push THIS
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1	//push THAT
+@SP
+D=M
+@n
+D=D-A
+@5
+D=D-A
+@ARG
+M=D	//ARG = SP-n-5
+@SP
+D=M
+@LCL
+M=D	//LCL = SP
+@f
+0;JMP	//goto f
+(returnAddressX)
+================
+//writeReturn
+
+================
+//writeFunction
+
+ 
