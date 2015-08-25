@@ -22,11 +22,11 @@ public:
     void writeCall(string functionName, int numOfArgs);
     void writeReturn();
     void writeFunction(string functionName, int numOfLocals);
+    void writeBootStrap();
 protected:
     ofstream fout;
-    int equalCount, greaterCount, lessCount, ifCount, returnCount, writeCount;
-    string currentVmFileName;
-    string currentFunction;
+    int equalCount, greaterCount, lessCount, ifCount, returnCount, functionCount;
+    string currentFunction, currentVmFile;
 };
 #endif	/* CODEWRITER_H */
 

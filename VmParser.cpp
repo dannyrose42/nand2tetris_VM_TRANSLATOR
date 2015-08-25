@@ -2,6 +2,8 @@
 //Constructor opens the input file/stream and gets ready to parse it
 VmParser::VmParser(string file){
     input_file = file;
+    
+    
     fin.open(input_file.c_str());
     if(fin.fail()){
         cout << "Failed to open input file:"<< file << endl;
@@ -76,7 +78,7 @@ void VmParser::advance(){
  */
 COMMAND_TYPE VmParser::commandType(){
     string command = current_command.substr(0,firstBlankIndex);
-    cout << "command:" << command <<"." << endl;
+    //cout << "command:" << command <<"." << endl;
     if (command.compare("add")== 0
             || command.compare("sub")== 0
             || command.compare("neg")== 0

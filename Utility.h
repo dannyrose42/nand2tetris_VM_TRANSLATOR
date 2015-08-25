@@ -11,6 +11,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <dirent.h>
+#include <stdio.h>
+#include <vector>
 using namespace std;
 
 enum COMMAND_TYPE  {C_ARITHMETIC,
@@ -22,5 +25,7 @@ enum COMMAND_TYPE  {C_ARITHMETIC,
                     C_FUNCTION,
                     C_RETURN,
                     C_CALL};
+                    
+
 #endif	/* UTILITY_H */
 

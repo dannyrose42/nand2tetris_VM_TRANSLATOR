@@ -1,14 +1,14 @@
 #include "CodeWriter.h"
 CodeWriter::CodeWriter(string asmFile){
-    equalCount, greaterCount, lessCount, ifCount,  returnCount, writeCount = 0;
+    equalCount, greaterCount, lessCount, ifCount,  returnCount, functionCount = 0;
     fout.open(asmFile.c_str());
     if (fout.fail()) cout << "Failed to initialize output file:" << asmFile << endl;
     //Trim .asm extension to set currentFileName for static varibles
     asmFile.erase(asmFile.size()-4, 4);
-    currentVmFileName = currentFunction = asmFile;
+    currentVmFile = asmFile;
 }
-void CodeWriter::setFileName(string FileName){
-    
+void CodeWriter::setFileName(string fileName){
+    currentVmFile = fileName;
 }
 void CodeWriter::close(){
     fout.close();
@@ -132,7 +132,7 @@ void CodeWriter::writeArithmetic(string command){
     }else
         cout << "WriteArithmetic() called on invalid command: " << command << endl; 
 }
-void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
+void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index)  {
     /* Replace vm segment with asm symbol equivalent:
      * local -> LCL
      * argument -> ARG
@@ -160,7 +160,7 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
     switch (command){
         case C_PUSH:
             //debug
-            cout << "CodeWriter dectects PUSH" << endl;
+            //cout << "CodeWriter dectects PUSH" << endl;
             if (segment.compare("constant")==0){ //Push constant
                 fout << "@" << index << endl;
                 fout << "D=A" << endl;
@@ -170,7 +170,7 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
                 fout << "@SP" << endl;
                 fout << "M=M+1" << endl;
             }else if (segment.compare("static")==0){  //push static
-                fout << "@" << currentVmFileName << "." << index << endl;
+                fout << "@" << currentVmFile << "." << index << endl;
                 fout << "D=M" << endl;
                 fout << "@SP" << endl;
                 fout << "A=M" << endl;
@@ -204,12 +204,12 @@ void CodeWriter::writePushPop(COMMAND_TYPE command, string segment, int index){
             break;
         case C_POP:// static only special case
             //debug
-            cout << "CodeWriter dectects POP" << endl;
+            //cout << "CodeWriter dectects POP" << endl;
             if (segment.compare("static")==0){
                 fout << "@SP" << endl;
                 fout << "AM=M-1" << endl;
                 fout << "D=M" << endl;
-                fout << "@" << currentVmFileName <<"." << index << endl;
+                fout << "@" << currentVmFile <<"." << index << endl;
                 fout << "M=D" << endl;
             }else if (segment.compare("R3") == 0 //pop pointer || temp
                    || segment.compare("R5") ==0){
@@ -249,7 +249,7 @@ void CodeWriter::writeLabel(string label){
     fout << "(" << currentFunction << "$" << label << ")" << endl;
 }
 void CodeWriter::writeGoto(string label){
-    fout << "@" << currentFunction << "$" << label << endl;
+    fout << "@" << label << "$" << label << endl;
     fout << "0;JMP" << endl;
 }
 void CodeWriter::writeIf(string label){
@@ -264,6 +264,7 @@ void CodeWriter::writeIf(string label){
     ifCount++;
 }
 void CodeWriter::writeCall(string functionName, int numOfArgs){
+    cout << "returnCount:" << returnCount << endl;
     fout << "@returnAddress" << returnCount << endl;    //push return address
     fout << "D=A" << endl;
     fout << "@SP" << endl;
@@ -323,7 +324,7 @@ void CodeWriter::writeCall(string functionName, int numOfArgs){
     fout << "(returnAddress" << returnCount << ")" << endl;
     returnCount++; 
 }
-void CodeWriter::writeReturn(){
+void CodeWriter::writeReturn(){            
     fout << "@LCL" << endl;     //FRAME(R13) = LCL
     fout << "D=M" << endl;
     fout << "@R13" << endl;
@@ -388,20 +389,45 @@ void CodeWriter::writeReturn(){
     fout << "0;JMP" << endl;
 }
 void CodeWriter::writeFunction(string functionName, int numOfLocals){
+    currentFunction = functionName;
     fout << "(" << functionName << ")" << endl;
-    
-    fout << "@" << numOfLocals << endl;
+    if (numOfLocals > 0){
+        fout << "@" << numOfLocals << endl;
+        fout << "D=A" << endl;
+
+        fout << "(localLOOP" << functionCount << ")" << endl;
+        fout << "@SP" << endl;      //push zero
+        fout << "A=M" << endl;
+        fout << "M=0" << endl;
+        fout << "@SP" << endl;
+        fout << "M=M+1" << endl;
+
+        fout << "D=D-1" << endl;
+
+        fout << "@" << "localLOOP" << functionCount << endl;
+        fout << "D;JNE" << endl;
+        functionCount++;
+    }
+}
+void CodeWriter::writeBootStrap(){
+    //SP = 256
+    fout << "@256" << endl;
     fout << "D=A" << endl;
-    
-    fout << "(writeLOOP" << writeCount << ")" << endl;
-    fout << "@SP" << endl;      //push zero
-    fout << "A=M" << endl;
-    fout << "M=0" << endl;
     fout << "@SP" << endl;
-    fout << "M=M+1" << endl;
-    
-    fout << "D=D-1" << endl;
-    
-    fout << "@" << "writeLOOP" << writeCount << endl;
-    fout << "D;JNE" << endl;    
+    fout << "M=D" << endl;
+    //LCL = -1
+    fout << "@0" << endl;
+    fout << "A=A+1" << endl;
+    fout << "M=-A" << endl;
+    //ARG = -2
+    fout << "A=A+1" << endl;
+    fout << "M=-A" << endl;
+    //THIS = -3
+    fout << "A=A+1" << endl;
+    fout << "M=-A" << endl;
+    //that = -4
+    fout << "A=A+1" << endl;
+    fout << "M=-A" << endl;
+    //Call Sys.init
+    writeCall("Sys.init", 0);
 }
