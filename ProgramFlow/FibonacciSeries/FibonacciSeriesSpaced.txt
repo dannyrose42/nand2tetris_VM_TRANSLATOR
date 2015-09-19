@@ -8,6 +8,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @R3
 D=A
 @1
@@ -20,6 +21,7 @@ D=M
 @R13
 A=M
 M=D
+
 @0
 D=A
 @SP
@@ -27,6 +29,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @THAT
 D=M
 @0
@@ -39,6 +42,7 @@ D=M
 @R13
 A=M
 M=D
+
 @1
 D=A
 @SP
@@ -46,6 +50,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @THAT
 D=M
 @1
@@ -58,6 +63,7 @@ D=M
 @R13
 A=M
 M=D
+
 @ARG
 D=M
 @0
@@ -68,6 +74,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @2
 D=A
 @SP
@@ -75,6 +82,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @SP
 M=M-1
 @SP
@@ -91,6 +99,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @ARG
 D=M
 @0
@@ -103,7 +112,9 @@ D=M
 @R13
 A=M
 M=D
+
 ($MAIN_LOOP_START)
+
 @ARG
 D=M
 @0
@@ -114,17 +125,21 @@ A=M
 M=D
 @SP
 M=M+1
+
 @SP
 AM=M-1
 D=M
-@wIf1365621425
+@wIf1895099158
 D;JEQ
 @$COMPUTE_ELEMENT
 0;JMP
-(wIf1365621425)
-@$END_PROGRAM
+(wIf1895099158)
+
+@END_PROGRAM$END_PROGRAM
 0;JMP
+
 ($COMPUTE_ELEMENT)
+
 @THAT
 D=M
 @0
@@ -135,6 +150,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @THAT
 D=M
 @1
@@ -145,6 +161,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @SP
 AM=M-1
 D=M
@@ -159,6 +176,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @THAT
 D=M
 @2
@@ -171,6 +189,7 @@ D=M
 @R13
 A=M
 M=D
+
 @R3
 D=A
 @1
@@ -181,6 +200,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @1
 D=A
 @SP
@@ -188,6 +208,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @SP
 AM=M-1
 D=M
@@ -202,6 +223,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @R3
 D=A
 @1
@@ -214,6 +236,7 @@ D=M
 @R13
 A=M
 M=D
+
 @ARG
 D=M
 @0
@@ -224,6 +247,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @1
 D=A
 @SP
@@ -231,6 +255,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @SP
 M=M-1
 @SP
@@ -247,6 +272,7 @@ A=M
 M=D
 @SP
 M=M+1
+
 @ARG
 D=M
 @0
@@ -259,6 +285,8 @@ D=M
 @R13
 A=M
 M=D
-@$MAIN_LOOP_START
+
+@MAIN_LOOP_START$MAIN_LOOP_START
 0;JMP
+
 ($END_PROGRAM)

@@ -17,7 +17,7 @@ D=M
 @R13
 A=M
 M=D
-(BasicLoop$LOOP_START)
+($LOOP_START)
 @ARG
 D=M
 @0
@@ -122,11 +122,11 @@ M=M+1
 @SP
 AM=M-1
 D=M
-@wIf0
+@wIf858305018
 D;JEQ
-@BasicLoop$LOOP_START
+@$LOOP_START
 0;JMP
-(wIf0)
+(wIf858305018)
 @LCL
 D=M
 @0

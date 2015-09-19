@@ -249,7 +249,7 @@ void CodeWriter::writeLabel(string label){
     fout << "(" << currentFunction << "$" << label << ")" << endl;
 }
 void CodeWriter::writeGoto(string label){
-    fout << "@" << label << "$" << label << endl;
+    fout << "@" << currentFunction << "$" << label << endl;
     fout << "0;JMP" << endl;
 }
 void CodeWriter::writeIf(string label){

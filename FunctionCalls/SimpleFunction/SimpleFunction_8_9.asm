@@ -1,14 +1,14 @@
-(SimpleFunction.test)
+(SimpleFunction.SimpleFunction.test)
 @2
 D=A
-(localLOOP0)
+(writeLOOP0)
 @SP
 A=M
 M=0
 @SP
 M=M+1
 D=D-1
-@localLOOP0
+@writeLOOP0
 D;JNE
 @LCL
 D=M

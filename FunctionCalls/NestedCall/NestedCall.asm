@@ -1,5 +1,5 @@
-(NestedCall.Sys.init)
-@returnAddress2686504
+(Sys.init)
+@returnAddress20
 D=A
 @SP
 A=M
@@ -46,9 +46,9 @@ M=D
 D=M
 @LCL
 M=D
-@NestedCall.Sys.main
+@Sys.main
 0;JMP
-(returnAddress2686504)
+(returnAddress20)
 @R5
 D=A
 @1
@@ -61,10 +61,10 @@ D=M
 @R13
 A=M
 M=D
-(LOOP$LOOP)
+(Sys.init$LOOP)
 @LOOP$LOOP
 0;JMP
-(NestedCall.Sys.main)
+(Sys.main)
 @123
 D=A
 @SP
@@ -72,7 +72,7 @@ A=M
 M=D
 @SP
 M=M+1
-@returnAddress2686505
+@returnAddress21
 D=A
 @SP
 A=M
@@ -119,9 +119,9 @@ M=D
 D=M
 @LCL
 M=D
-@NestedCall.Sys.add12
+@Sys.add12
 0;JMP
-(returnAddress2686505)
+(returnAddress21)
 @R5
 D=A
 @0
@@ -195,7 +195,7 @@ M=D
 @R14
 A=M
 0;JMP
-(NestedCall.Sys.add12)
+(Sys.add12)
 @3
 D=A
 (localLOOP0)
