@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=MinGW-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW-Windows
-CND_ARTIFACT_NAME_Debug=nand2tetris_vm_translator
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/nand2tetris_vm_translator
+CND_ARTIFACT_NAME_Debug=hack_vm_translator
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/hack_vm_translator
 CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
-CND_PACKAGE_NAME_Debug=nand2tetrisvmtranslator.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/nand2tetrisvmtranslator.tar
+CND_PACKAGE_NAME_Debug=hackvmtranslator.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/hackvmtranslator.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
-CND_ARTIFACT_NAME_Release=nand2tetris_vm_translator
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/nand2tetris_vm_translator
+CND_ARTIFACT_NAME_Release=hack_vm_translator
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/hack_vm_translator
 CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
-CND_PACKAGE_NAME_Release=nand2tetrisvmtranslator.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/nand2tetrisvmtranslator.tar
+CND_PACKAGE_NAME_Release=hackvmtranslator.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/hackvmtranslator.tar
 #
 # include compiler specific variables
 #

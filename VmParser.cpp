@@ -27,12 +27,7 @@ void VmParser::advance(){
         getline(fin, current_line);
         //remove leading blanks
         current_line.erase(0, current_line.find_first_not_of(" \t\r\n"));
-        //remove trailing comment
-        for(int i = 0; i < current_line.size(); i++){
-            if(current_line.substr(i, 2).compare("//") == 0){
-              current_line.erase(i, string::npos);
-            }
-        }
+         
         if(!current_line.empty()){ 
             valid_command = true;
             current_command = current_line;
